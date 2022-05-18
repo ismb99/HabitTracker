@@ -71,9 +71,10 @@ namespace HabitTracker
             Console.Clear();
             Console.WriteLine("skriv in datum");
             string dateInput = Console.ReadLine();
-            Console.WriteLine("Skriv antal ggr");
-            string qtyStr = Console.ReadLine();
-            int quantity = int.Parse(qtyStr);
+           var quantity =  GetUserInputQuantity();
+            //Console.WriteLine("Type the quantity");
+            //string qtyStr = Console.ReadLine();
+            //int quantity = int.Parse(qtyStr);
 
             using (var connection = new SQLiteConnection(connectionString))
             {
@@ -113,9 +114,10 @@ namespace HabitTracker
 
                 Console.WriteLine("Type the date");
                 string date = Console.ReadLine();
-                Console.WriteLine("Type the Quantity");
-                string qytStr = Console.ReadLine();
-                int quantity = int.Parse(qytStr);
+                var quantity = GetUserInputQuantity();
+                //Console.WriteLine("Type the Quantity");
+                //string qytStr = Console.ReadLine();
+                //int quantity = int.Parse(qytStr);
 
                 var command = connection.CreateCommand();
                 command.CommandText = $"UPDATE drinking_cola SET date = '{date}', quantity = {quantity} WHERE Id = {numId}";
@@ -173,13 +175,46 @@ namespace HabitTracker
                     Console.WriteLine($"{reader.GetInt32(0)} {reader.GetString(1)} {reader.GetInt32(2)}");
                     Console.WriteLine();
                 }
-
                 connection.Close();
-
             };
 
         }
+        private static int GetUserInputQuantity()
+        {
+            while (true)
+            {
+                Console.Write("Type the Quantity: ");
+                string qytStr = Console.ReadLine();
+                
+                if (qytStr == "0") MainMenu();
 
+               if (int.TryParse(qytStr, out int quantity))
+                {
+                    if(quantity <= 0)
+                    {
+                        Console.WriteLine("Quantity must be more then 0");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine($"Qutantity =  {quantity} added to db");
+                        return quantity;
+                    }
+                }
+                
+               return 0;
+
+            }
+
+        }
+
+        private static void GetUserInputDate()
+        {
+            Console.Write("Type the date: ");
+            string date = Console.ReadLine();
+
+            DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+        }
 
     }
    
