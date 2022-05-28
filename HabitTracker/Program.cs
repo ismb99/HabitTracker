@@ -10,13 +10,10 @@ namespace HabitTracker
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hej");
-
             Database db = new Database();
             db.DatabaseProvider();
             ProgramHelpers.MainMenu();
-
         }
     }
-      
+
 }

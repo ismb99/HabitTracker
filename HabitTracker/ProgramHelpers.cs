@@ -16,7 +16,8 @@ namespace HabitTracker
                 Console.WriteLine("1 show all records");
                 Console.WriteLine("2 insert");
                 Console.WriteLine("3 Delete");
-                Console.WriteLine("4 Update");
+                Console.WriteLine("4 Delete All");
+                Console.WriteLine("5 Update");
                 Console.WriteLine("---------------------------\n\n");
 
                 string Userinput = Console.ReadLine();
@@ -41,8 +42,13 @@ namespace HabitTracker
                         break;
 
                     case "4":
+                        Database.DeleteAll();
+                        break;
+
+                    case "5":
                         Database.Update();
                         break;
+
 
                     default:
                         Console.WriteLine("wrong choice, you can only choose between 0-4\n");
@@ -52,47 +58,6 @@ namespace HabitTracker
         }
 
 
-        public static int GetUserInputQuantity()
-        {
-            Console.Write("Type the Quantity: ");
-            string qytStr = Console.ReadLine();
 
-            if (qytStr == "0") ProgramHelpers.MainMenu();
-
-            int quantity = int.Parse(qytStr);
-
-            bool isValid = false;
-
-            while (!isValid)
-            {
-                if(quantity < 0)
-                {
-                    while (quantity < 0)
-                    {
-                        Console.WriteLine("Quantity must be more then 0, try again");
-                        quantity = int.Parse(Console.ReadLine());
-                    }
-                }
-               
-                Console.WriteLine($"Qutantity {quantity} added to db\n");
-                isValid = true;
-           
-            }
-            return quantity;
-        }
-
-        public static string GetDate()
-        {
-            Console.WriteLine("\n\nPlease insert the date: (Format: yyyy-mm-dd). Type 0 to return to main manu.\n\n");
-            string date = Console.ReadLine();
-            if (date == "0") ProgramHelpers.MainMenu();
-
-            while (!DateTime.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-            {
-                Console.WriteLine("\n\nInvalid date. (Format: yyyy-mm-dd hh:mm). Type 0 to return to main manu or try again:\n\n");
-                date = Console.ReadLine();
-            }
-            return date;
-        }
     }
 }
